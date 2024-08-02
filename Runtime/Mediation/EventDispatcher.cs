@@ -1,50 +1,59 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Blanketmen.Hypnos.Communication
+namespace Blanketmen.Hypnos.Mediation
 {
     // NOTE: There is GC overhead when delegates are merged.
-    public class Subject<TKey>
+    public class EventDispatcher<TKey>
     {
-        protected Dictionary<TKey, Action> paramlessHandlerMap;
         protected Dictionary<TKey, Delegate> handlerMap;
 
-        public Subject()
+        public EventDispatcher()
         {
-            paramlessHandlerMap = new Dictionary<TKey, Action>();
             handlerMap = new Dictionary<TKey, Delegate>();
         }
 
-        public Subject(IEqualityComparer<TKey> comparer)
+        public EventDispatcher(IEqualityComparer<TKey> comparer)
         {
-            paramlessHandlerMap = new Dictionary<TKey, Action>(comparer);
             handlerMap = new Dictionary<TKey, Delegate>(comparer);
         }
 
-        public void UnregisterAll()
+        public void Clear()
         {
-            paramlessHandlerMap.Clear();
             handlerMap.Clear();
         }
 
         public void Register(TKey id, Action handler)
         {
-            paramlessHandlerMap.TryGetValue(id, out Action handlers);
-            paramlessHandlerMap[id] = handlers + handler;
+            handlerMap.TryGetValue(id, out Delegate del);
+            if (del == null)
+            {
+                handlerMap[id] = handler;
+                return;
+            }
+
+            if (del is Action handlers)
+            {
+                handlerMap[id] = handlers + handler;
+                return;
+            }
+
+            throw new InvalidOperationException($"[EventDispatcher] Cannot register different types of handlers with the same key. Id: {id}");
         }
 
         public void Unregister(TKey id, Action handler)
         {
-            if (paramlessHandlerMap.TryGetValue(id, out Action handlers))
+            handlerMap.TryGetValue(id, out Delegate del);
+            if (del is Action handlers)
             {
-                paramlessHandlerMap[id] = handlers - handler;
+                handlerMap[id] = handlers - handler;
             }
         }
 
         protected void Notify(TKey id)
         {
-            paramlessHandlerMap.TryGetValue(id, out Action handlers);
-            handlers?.Invoke();
+            handlerMap.TryGetValue(id, out Delegate del);
+            (del as Action)?.Invoke();
         }
 
         public void Register<T1>(TKey id, Action<T1> handler)
@@ -62,7 +71,7 @@ namespace Blanketmen.Hypnos.Communication
                 return;
             }
 
-            throw new InvalidOperationException($"[Subject] Cannot register different types of handler functions in the same ID: {id}");
+            throw new InvalidOperationException($"[EventDispatcher] Cannot register different types of handlers with the same key. Id: {id}");
         }
 
         public void Unregister<T1>(TKey id, Action<T1> handler)
@@ -94,7 +103,7 @@ namespace Blanketmen.Hypnos.Communication
                 handlerMap[id] = handlers + handler;
             }
 
-            throw new InvalidOperationException($"[Subject] Cannot register different types of handler functions in the same ID: {id}");
+            throw new InvalidOperationException($"[EventDispatcher] Cannot register different types of handlers with the same key. Id: {id}");
         }
 
         public void Unregister<T1, T2>(TKey id, Action<T1, T2> handler)
@@ -127,7 +136,7 @@ namespace Blanketmen.Hypnos.Communication
                 return;
             }
 
-            throw new InvalidOperationException($"[Subject] Cannot register different types of handler functions in the same ID: {id}");
+            throw new InvalidOperationException($"[EventDispatcher] Cannot register different types of handlers with the same key. Id: {id}");
         }
 
         public void Unregister<T1, T2, T3>(TKey id, Action<T1, T2, T3> handler)
