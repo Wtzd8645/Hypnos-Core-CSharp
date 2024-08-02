@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Blanketmen.Hypnos.Mathematics
 {
@@ -66,65 +66,65 @@ namespace Blanketmen.Hypnos.Mathematics
 
         public static float EaseInSine(float t)
         {
-            return 1f - Mathf.Cos(t * Mathf.PI / 2f);
+            return 1f - (float)Math.Cos(t * Math.PI / 2f);
         }
 
         public static float EaseOutSine(float t)
         {
-            return Mathf.Sin(t * Mathf.PI / 2f);
+            return (float)Math.Sin(t * Math.PI / 2f);
         }
 
         public static float EaseInOutSine(float t)
         {
-            return 0.5f * (1f - Mathf.Cos(Mathf.PI * t));
+            return 0.5f * (1f - (float)Math.Cos(Math.PI * t));
         }
 
         public static float EaseInExpo(float t)
         {
-            return t == 0f ? 0f : Mathf.Pow(1024f, t - 1f);
+            return t == 0f ? 0f : (float)Math.Pow(1024f, t - 1f);
         }
 
         public static float EaseOutExpo(float t)
         {
-            return t == 1f ? 1f : 1f - Mathf.Pow(2f, -10f * t);
+            return t == 1f ? 1f : 1f - (float)Math.Pow(2f, -10f * t);
         }
 
         public static float EaseInOutExpo(float t)
         {
-            return t == 0f ? 0f : t == 1f ? 1f : t < 0.5f ? 0.5f * Mathf.Pow(2f, 20f * t - 10f) : 0.5f * (2f - Mathf.Pow(2f, -20f * t + 10f));
+            return t == 0f ? 0f : t == 1f ? 1f : t < 0.5f ? 0.5f * (float)Math.Pow(2f, 20f * t - 10f) : 0.5f * (2f - (float)Math.Pow(2f, -20f * t + 10f));
         }
 
         public static float EaseInCirc(float t)
         {
-            return 1f - Mathf.Sqrt(1f - t * t);
+            return 1f - (float)Math.Sqrt(1f - t * t);
         }
 
         public static float EaseOutCirc(float t)
         {
-            return Mathf.Sqrt(1f - (--t) * t);
+            return (float)Math.Sqrt(1f - (--t) * t);
         }
 
         public static float EaseInOutCirc(float t)
         {
-            return (t *= 2f) < 1f ? -0.5f * (Mathf.Sqrt(1f - t * t) - 1f) : 0.5f * (Mathf.Sqrt(1f - (t -= 2f) * t) + 1f);
+            return (t *= 2f) < 1f ? -0.5f * ((float)Math.Sqrt(1f - t * t) - 1f) : 0.5f * ((float)Math.Sqrt(1f - (t -= 2f) * t) + 1f);
         }
 
         // https://github.com/nicolausYes/easing-functions/blob/master/src/easing.cpp
         public static float EaseInElastic(float k)
         {
-            return k == 0f ? 0f : k == 1f ? 1f : -Mathf.Pow(2f, 10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f);
+            return k == 0f ? 0f : k == 1f ? 1f : -(float)Math.Pow(2f, 10f * (k -= 1f)) * (float)Math.Sin((k - 0.1f) * (2f * Math.PI) / 0.4f);
         }
 
         public static float EaseOutElastic(float k)
         {
-            return k == 0f ? 0f : k == 1f ? 1f : Mathf.Pow(2f, -10f * k) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f) + 1f;
+            return k == 0f ? 0f : k == 1f ? 1f : (float)Math.Pow(2f, -10f * k) * (float)Math.Sin((k - 0.1f) * (2f * Math.PI) / 0.4f) + 1f;
         }
 
         public static float EaseInOutElastic(float k)
         {
             return (k *= 2f) < 1f
-                ? -0.5f * Mathf.Pow(2f, 10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f)
-                : Mathf.Pow(2f, -10f * (k -= 1f)) * Mathf.Sin((k - 0.1f) * (2f * Mathf.PI) / 0.4f) * 0.5f + 1f;
+                ? -0.5f * (float)Math.Pow(2f, 10f * (k -= 1f)) * (float)Math.Sin((k - 0.1f) * (2f * Math.PI) / 0.4f)
+                : (float)Math.Pow(2f, -10f * (k -= 1f)) * (float)Math.Sin((k - 0.1f) * (2f * Math.PI) / 0.4f) * 0.5f + 1f;
         }
 
         public static float EaseInBack(float k)

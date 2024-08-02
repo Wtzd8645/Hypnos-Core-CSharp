@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Blanketmen.Hypnos.Serialization
 {
@@ -9,25 +8,33 @@ namespace Blanketmen.Hypnos.Serialization
         {
             try
             {
-                string json = JsonUtility.ToJson(obj);
+#if UNITY_32 || UNITY_64
+                string json = UnityEngine.JsonUtility.ToJson(obj);
+#else
+                string json = System.Text.Json.JsonSerializer.Serialize(obj);
+#endif
                 return System.Text.Encoding.UTF8.GetBytes(json);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
-
+        
         public T Deserialize<T>(byte[] data)
         {
             try
             {
                 string json = System.Text.Encoding.UTF8.GetString(data);
-                return JsonUtility.FromJson<T>(json);
+#if UNITY_32 || UNITY_64
+                return UnityEngine.JsonUtility.FromJson<T>(json);
+#else
+                return System.Text.Json.JsonSerializer.Deserialize<T>(json);
+#endif
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
     }
