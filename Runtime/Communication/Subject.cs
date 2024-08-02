@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Blanketmen.Hypnos.Event
+namespace Blanketmen.Hypnos.Communication
 {
     // NOTE: There is GC overhead when delegates are merged.
     public class Subject<TKey>
