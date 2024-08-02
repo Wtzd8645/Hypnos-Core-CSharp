@@ -8,15 +8,15 @@ namespace Blanketmen.Hypnos.Cache
     public class ObjectPool<T> where T : class
     {
         private const BindingFlags CtorFlags = BindingFlags.Public | BindingFlags.Instance;
-        private const int DefaultCapacity = 8;
 
         private readonly Func<T> constructor;
         private T[] buffer;
+        private int count;
 
         public int Capacity => buffer.Length;
-        public int Count { get; private set; }
+        public int Count => count;
 
-        public ObjectPool(Func<T> ctor = null, int capacity = DefaultCapacity, bool isPrefilled = false)
+        public ObjectPool(Func<T> ctor = null, int cap = 8, bool isPrefill = false)
         {
             if (ctor == null)
             {
@@ -28,9 +28,9 @@ namespace Blanketmen.Hypnos.Cache
             {
                 constructor = ctor;
             }
-            buffer = new T[capacity > 0 ? capacity : DefaultCapacity];
 
-            if (isPrefilled)
+            buffer = new T[cap];
+            if (isPrefill)
             {
                 Fill();
             }
@@ -38,46 +38,56 @@ namespace Blanketmen.Hypnos.Cache
 
         public void Clear()
         {
-            Array.Clear(buffer, 0, Count);
-            Count = 0;
+            Array.Clear(buffer, 0, count);
+            count = 0;
         }
 
         public void Fill()
         {
-            while (Count < buffer.Length)
+            while (count < buffer.Length)
             {
-                buffer[Count++] = constructor();
+                buffer[count++] = constructor();
             }
         }
 
-        public T Pop()
+        public bool TryPush(T obj)
         {
-            return Count > 0 ? buffer[--Count] : null;
+            if (count >= buffer.Length)
+            {
+                return false;
+            }
+
+            buffer[count++] = obj;
+            return true;
         }
 
-        public T ForcePop()
+        public bool TryPop(out T obj)
         {
-            return Count > 0 ? buffer[--Count] : constructor();
+            if (count == 0)
+            {
+                obj = null;
+                return false;
+            }
+
+            obj = buffer[--count];
+            return true;
         }
 
         public void Push(T obj)
         {
-            if (Count >= buffer.Length)
+            if (count >= buffer.Length)
             {
-                return;
-            }
-            buffer[Count++] = obj;
-        }
-
-        public void ForcePush(T obj)
-        {
-            if (Count >= buffer.Length)
-            {
-                T[] newBuf = new T[Count * 2];
-                Array.Copy(buffer, newBuf, Count);
+                T[] newBuf = new T[count * 2];
+                Array.Copy(buffer, newBuf, count);
                 buffer = newBuf;
             }
-            buffer[Count++] = obj;
+
+            buffer[count++] = obj;
+        }
+
+        public T Pop()
+        {
+            return count > 0 ? buffer[--count] : constructor();
         }
     }
 }

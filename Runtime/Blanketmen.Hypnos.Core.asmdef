@@ -1,0 +1,14 @@
+{
+    "name": "Blanketmen.Hypnos.Core",
+    "rootNamespace": "Blanketmen.Hypnos",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
