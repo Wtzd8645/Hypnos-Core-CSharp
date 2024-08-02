@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -7,7 +7,7 @@ namespace Blanketmen.Hypnos.Cache
 {
     public class ObjectPool<T> where T : class
     {
-        private const BindingFlags CtorFlags = BindingFlags.Public | BindingFlags.Instance;
+        private const BindingFlags ConstructorFlags = BindingFlags.Public | BindingFlags.Instance;
 
         private readonly Func<T> constructor;
         private T[] buffer;
@@ -16,11 +16,11 @@ namespace Blanketmen.Hypnos.Cache
         public int Capacity => buffer.Length;
         public int Count => count;
 
-        public ObjectPool(Func<T> ctor = null, int cap = 8, bool isPrefill = false)
+        public ObjectPool(Func<T> ctor = null, int cap = 8, bool isPopulate = false)
         {
             if (ctor == null)
             {
-                ConstructorInfo ctorInfo = typeof(T).GetConstructor(CtorFlags, null, Type.EmptyTypes, null);
+                ConstructorInfo ctorInfo = typeof(T).GetConstructor(ConstructorFlags, null, Type.EmptyTypes, null);
                 NewExpression newExpr = Expression.New(ctorInfo, (IEnumerable<Expression>)null);
                 constructor = Expression.Lambda<Func<T>>(newExpr).Compile();
             }
@@ -30,9 +30,9 @@ namespace Blanketmen.Hypnos.Cache
             }
 
             buffer = new T[cap];
-            if (isPrefill)
+            if (isPopulate)
             {
-                Fill();
+                Populate();
             }
         }
 
@@ -42,12 +42,29 @@ namespace Blanketmen.Hypnos.Cache
             count = 0;
         }
 
-        public void Fill()
+        public void Populate()
         {
             while (count < buffer.Length)
             {
                 buffer[count++] = constructor();
             }
+        }
+
+        public void Push(T obj)
+        {
+            if (count >= buffer.Length)
+            {
+                T[] newBuf = new T[count * 2];
+                Array.Copy(buffer, newBuf, count);
+                buffer = newBuf;
+            }
+
+            buffer[count++] = obj;
+        }
+
+        public T Pop()
+        {
+            return count > 0 ? buffer[--count] : constructor();
         }
 
         public bool TryPush(T obj)
@@ -71,23 +88,6 @@ namespace Blanketmen.Hypnos.Cache
 
             obj = buffer[--count];
             return true;
-        }
-
-        public void Push(T obj)
-        {
-            if (count >= buffer.Length)
-            {
-                T[] newBuf = new T[count * 2];
-                Array.Copy(buffer, newBuf, count);
-                buffer = newBuf;
-            }
-
-            buffer[count++] = obj;
-        }
-
-        public T Pop()
-        {
-            return count > 0 ? buffer[--count] : constructor();
         }
     }
 }
