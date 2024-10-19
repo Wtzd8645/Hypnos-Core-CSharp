@@ -6,7 +6,7 @@ namespace Blanketmen.Hypnos.Mediation
     // NOTE: There is GC overhead when delegates are merged.
     public class EventDispatcher<TKey>
     {
-        protected Dictionary<TKey, Delegate> handlerMap;
+        private readonly Dictionary<TKey, Delegate> handlerMap;
 
         public EventDispatcher()
         {

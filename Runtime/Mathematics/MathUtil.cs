@@ -13,6 +13,12 @@ namespace Blanketmen.Hypnos.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int FloorToInt(double value) => (int)Math.Floor(value);
 
+        [MethodImpl (MethodImplOptions.AggressiveInlining)]
+        public static int Clamp(int value, int min, int max)
+        {
+            return value < min ? min : value > max ? max : value;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine(short hi, short lo)
         {
@@ -32,7 +38,7 @@ namespace Blanketmen.Hypnos.Mathematics
 
         public static int GetNumberOfDecimalsForMinimumDifference(float minDiff)
         {
-            return Math.Clamp(-FloorToInt(Math.Log10(Math.Abs(minDiff))), 0, MaxDecimals);
+            return Clamp(-FloorToInt(Math.Log10(Math.Abs(minDiff))), 0, MaxDecimals);
         }
     }
 }

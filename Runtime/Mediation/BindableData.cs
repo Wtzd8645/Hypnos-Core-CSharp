@@ -5,7 +5,7 @@ namespace Blanketmen.Hypnos.Mediation
 {
     public class BindableData<T> where T : unmanaged
     {
-        public static implicit operator T(BindableData<T> obj) => obj.value;
+        public static implicit operator T(BindableData<T> data) => data != null ? data.Value : default;
 
         private Action<T> onValueChanged;
         private T value;

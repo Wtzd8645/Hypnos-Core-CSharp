@@ -1,7 +1,10 @@
-﻿namespace Blanketmen.Hypnos.Memory
+﻿using System.Runtime.CompilerServices;
+
+namespace Blanketmen.Hypnos.Memory
 {
     public static class MemoryUtil
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Align(int pos, int align)
         {
             // TODO: return (n + 7) & static_cast<size_t>(-8); // Align n to next multiple of 8 (from Hacker's Delight, Chapter 3.)
