@@ -32,7 +32,7 @@ namespace Blanketmen.Hypnos.Tests.Core
                     break;
                 }
             }
-            Assert.IsTrue(isPass);
+            Assert.That(isPass, Is.True);
         }
     }
 }
