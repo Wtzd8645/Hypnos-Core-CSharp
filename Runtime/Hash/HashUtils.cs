@@ -1,6 +1,6 @@
 ﻿namespace Blanketmen.Hypnos.Hash
 {
-    public static class HashUtil
+    public static class HashUtils
     {
         public static uint BkdrHash(byte[] bytes)
         {

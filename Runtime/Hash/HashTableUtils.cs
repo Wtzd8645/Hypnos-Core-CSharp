@@ -2,7 +2,7 @@
 
 namespace Blanketmen.Hypnos.Hash
 {
-    public static class HashTableUtil
+    public static class HashTableUtils
     {
         public const int HashPrime = 101;
 

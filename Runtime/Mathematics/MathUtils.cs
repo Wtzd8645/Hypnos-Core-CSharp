@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Blanketmen.Hypnos.Mathematics
 {
-    public static partial class MathUtil
+    public static partial class MathUtils
     {
         private const int MaxDecimals = 15;
 
