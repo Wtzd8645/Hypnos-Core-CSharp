@@ -13,17 +13,11 @@ namespace Blanketmen.Hypnos.Mathematics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int FloorToInt(double value) => (int)Math.Floor(value);
 
-        [MethodImpl (MethodImplOptions.AggressiveInlining)]
-        public static int Clamp(int value, int min, int max)
-        {
-            return value < min ? min : value > max ? max : value;
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Clamp(int value, int min, int max) => value < min ? min : value > max ? max : value;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Combine(short hi, short lo)
-        {
-            return hi << 16 | (ushort)lo;
-        }
+        public static int Combine(short hi, short lo) => hi << 16 | (ushort)lo;
 
         public static int RoundUpToPowerOfTwo(int i)
         {
@@ -36,9 +30,20 @@ namespace Blanketmen.Hypnos.Mathematics
             return i + 1;
         }
 
-        public static int GetNumberOfDecimalsForMinimumDifference(float minDiff)
+        public static int GetDecimalPlaces(float minDiff)
         {
-            return Clamp(-FloorToInt(Math.Log10(Math.Abs(minDiff))), 0, MaxDecimals);
+            if (minDiff <= 0)
+            {
+                return 0;
+            }
+
+            int decimalPlaces = 0;
+            while (minDiff < 1 && decimalPlaces < MaxDecimals)
+            {
+                minDiff *= 10;
+                decimalPlaces++;
+            }
+            return decimalPlaces;
         }
     }
 }
