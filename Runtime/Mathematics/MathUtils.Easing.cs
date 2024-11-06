@@ -2,7 +2,7 @@
 
 namespace Blanketmen.Hypnos.Mathematics
 {
-    public static partial class MathUtil
+    public static partial class MathUtils
     {
         public static float EaseInQuad(float t)
         {
