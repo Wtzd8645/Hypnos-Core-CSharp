@@ -7,9 +7,10 @@
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
-    <AnalysisLevel>latest-all</AnalysisLevel>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <BaseOutputPath>Build\</BaseOutputPath>
   </PropertyGroup>
 
 </Project>

@@ -3,7 +3,14 @@ using System.Collections.Generic;
 
 namespace Blanketmen.Hypnos.Mediation
 {
-    // NOTE: There is GC overhead when delegates are merged.
+    /// <summary>
+    /// A generic event dispatcher that allows registering, unregistering, and invoking events.
+    /// </summary>
+    /// <typeparam name="TKey">The key type used to identify events.</typeparam>
+    /// <remarks>
+    /// This dispatcher ensures that each event key is associated with a consistent delegate type.
+    /// NOTE: There is GC overhead when delegates are merged.
+    /// </remarks>
     public class EventDispatcher<TKey>
     {
         private readonly Dictionary<TKey, Delegate> handlerMap;

@@ -68,12 +68,12 @@ namespace Blanketmen.Hypnos.Hash
         }
 
         // Returns size of hashtable to grow to.
-        public static int ExpandPrime(int oldSize)
+        public static int ExpandPrime(int size)
         {
-            int newSize = 2 * oldSize;
+            int expandedSize = 2 * size;
             // Allow the hashtables to grow to maximum possible size (~2G elements) before encoutering capacity overflow.
             // Note that this check works even when _items.Length overflowed thanks to the (uint) cast
-            return (uint)newSize > MaxPrimeArrayLength && MaxPrimeArrayLength > oldSize ? MaxPrimeArrayLength : GetPrime(newSize);
+            return (uint)expandedSize > MaxPrimeArrayLength && MaxPrimeArrayLength > size ? MaxPrimeArrayLength : GetPrime(expandedSize);
         }
     }
 }
