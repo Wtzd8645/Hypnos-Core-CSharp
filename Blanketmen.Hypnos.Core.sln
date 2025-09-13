@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blanketmen.Hypnos.Kernel", "Runtime\Blanketmen.Hypnos.Kernel.csproj", "{E4384131-D793-4021-B8A5-82FE24DA42E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blanketmen.Hypnos.Core", "Runtime\Blanketmen.Hypnos.Core.csproj", "{E4384131-D793-4021-B8A5-82FE24DA42E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blanketmen.Hypnos.Kernel.Tests", "Tests\Blanketmen.Hypnos.Kernel.Tests.csproj", "{A3AE9336-F52D-4A5D-AD7B-237E4087AE8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blanketmen.Hypnos.Core.Tests", "Tests\Blanketmen.Hypnos.Core.Tests.csproj", "{A3AE9336-F52D-4A5D-AD7B-237E4087AE8B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E4384131-D793-4021-B8A5-82FE24DA42E7} = {E4384131-D793-4021-B8A5-82FE24DA42E7}
 	EndProjectSection

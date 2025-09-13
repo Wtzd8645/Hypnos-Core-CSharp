@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Runtime\Blanketmen.Hypnos.Kernel.csproj" />
+    <ProjectReference Include="..\Runtime\Blanketmen.Hypnos.Core.csproj" />
   </ItemGroup>
 
 </Project>
